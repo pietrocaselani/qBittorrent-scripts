@@ -99,23 +99,23 @@ def is_tracker_non_working(tracker):
 
 def get_torrent_state_description(state):
     state_descriptions = {
-        'error': 'Some error occurred, applies to paused torrents',
-        'missingFiles': 'Torrent data files are missing',
-        'uploading': 'Torrent is being seeded and data is being transferred',
-        'stoppedUP': 'Torrent is paused and has finished downloading',
-        'queuedUP': 'Queuing is enabled and torrent is queued for upload',
-        'stalledUP': 'Torrent is being seeded, but no connections were made',
-        'checkingUP': 'Torrent has finished downloading and is being checked',
-        'forcedUP': 'Torrent is forced to upload and ignore queue limit',
-        'allocating': 'Torrent is allocating disk space for download',
-        'downloading': 'Torrent is being downloaded and data is being transferred',
-        'metaDL': 'Torrent has just started downloading and is fetching metadata',
-        'pausedDL': 'Torrent is paused and has NOT finished downloading',
-        'queuedDL': 'Queuing is enabled and torrent is queued for download',
-        'stalledDL': 'Torrent is being downloaded, but no connections were made',
-        'checkingDL': 'Same as checkingUP, but torrent has NOT finished downloading',
-        'forcedDL': 'Torrent is forced to download to ignore queue limit',
-        'checkingResumeData': 'Checking resume data on qBt startup',
-        'moving': 'Torrent is moving to another location'
+        'error': 'Some error occurred, applies to paused torrents (error)',
+        'missingFiles': 'Torrent data files are missing (missingFiles)',
+        'uploading': 'Torrent is being seeded and data is being transferred (uploading)',
+        'stoppedUP': 'Torrent is paused and has finished downloading (stoppedUP)',
+        'queuedUP': 'Queuing is enabled and torrent is queued for upload (queuedUP)',
+        'stalledUP': 'Torrent is being seeded, but no connections were made (stalledUP)',
+        'checkingUP': 'Torrent has finished downloading and is being checked (checkingUP)',
+        'forcedUP': 'Torrent is forced to upload and ignore queue limit (forcedUP)',
+        'allocating': 'Torrent is allocating disk space for download (allocating)',
+        'downloading': 'Torrent is being downloaded and data is being transferred (downloading)',
+        'metaDL': 'Torrent has just started downloading and is fetching metadata (metaDL)',
+        'pausedDL': 'Torrent is paused and has NOT finished downloading (pausedDL)',
+        'queuedDL': 'Queuing is enabled and torrent is queued for download (queuedDL)',
+        'stalledDL': 'Torrent is being downloaded, but no connections were made (stalledDL)',
+        'checkingDL': 'Same as checkingUP, but torrent has NOT finished downloading (checkingDL)',
+        'forcedDL': 'Torrent is forced to download to ignore queue limit (forcedDL)',
+        'checkingResumeData': 'Checking resume data on qBt startup (checkingResumeData)',
+        'moving': 'Torrent is moving to another location (moving)'
     }
     return state_descriptions.get(state, f'Unknown state {state}')

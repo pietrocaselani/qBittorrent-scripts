@@ -1,5 +1,6 @@
 #!/usr/bin/python3 -u
 
+from qbittorrentapi import TorrentState
 from qbt_utils import *
 
 try:
@@ -14,7 +15,7 @@ try:
             print(f"Skipping private torrent: {torrent.name}")
             continue
 
-        if is_torrent_completed(torrent) or torrent.state_enum.is_stopped:
+        if torrent.state_enum == TorrentState.STOPPED_UPLOAD:
             continue
 
         # Fetch non-working trackers for the current torrent
