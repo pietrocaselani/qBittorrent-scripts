@@ -8,6 +8,7 @@ load_dotenv()
 # Fetch environment variables
 DEBUG = os.environ['DEBUG'].lower() == 'true'
 HOST = os.environ['QBT_HOST']
+PORT = os.environ.get('QBT_PORT')
 USER = os.environ['QBT_USER']
 PASS = os.environ['QBT_PASS']
 PRIVATE_TAG = os.environ.get('QBT_PRIVATE_TAG', '')
@@ -52,7 +53,7 @@ Value Description
 
 def get_client():
     try:
-        client = Client(host=HOST, username=USER, password=PASS)
+        client = Client(host=HOST, port=PORT, username=USER, password=PASS)
         client.auth_log_in()
         print("Successfully connected to qBittorrent Web UI.")
         return client
@@ -90,6 +91,9 @@ def get_non_working_trackers(client, torrent_hash):
 
 def is_torrent_completed(torrent):
     return torrent.state_enum.is_complete
+
+def is_torrent_really_private(torrent):
+    return torrent.private or has_all_tags(torrent, PRIVATE_TAG)
 
 def is_tracker_working(tracker):
     return tracker.status == 2

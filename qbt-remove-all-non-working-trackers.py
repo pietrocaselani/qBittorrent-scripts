@@ -9,12 +9,8 @@ try:
     torrents_to_edit = []
 
     # Process torrents that are not private and completed or stopped torrents
-    torrents = client.torrents.info(private=False)
+    torrents = client.torrents.info(private=False, tag=NO_PRIVATE_TAG)
     for torrent in torrents:
-        if has_all_tags(torrent, PRIVATE_TAG):
-            print(f"Skipping private torrent: {torrent.name}")
-            continue
-
         if torrent.state_enum == TorrentState.STOPPED_UPLOAD:
             continue
 

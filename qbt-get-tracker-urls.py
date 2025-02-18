@@ -8,11 +8,7 @@ try:
     tracker_urls = set()
 
     # Process torrents
-    for torrent in client.torrents.info(private=False):
-        if has_all_tags(torrent, PRIVATE_TAG):
-            print(f"Skipping private torrent: {torrent.name}")
-            continue
-
+    for torrent in client.torrents.info(private=False, tag=NO_PRIVATE_TAG):
         # Fetch trackers for the current torrent
         trackers = client.torrents.trackers(torrent.hash)
         for tracker in trackers:

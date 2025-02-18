@@ -9,11 +9,7 @@ try:
     trackers = read_trackers(TRACKERS_FILE)
 
     # Process torrents
-    for torrent in client.torrents.info(private=False):
-        if has_all_tags(torrent, PRIVATE_TAG):
-            print(f"Skipping private torrent: {torrent.name}")
-            continue
-
+    for torrent in client.torrents.info(private=False, tag=NO_PRIVATE_TAG):
         existing_trackers = {tracker.url for tracker in client.torrents.trackers(torrent.hash)}
         new_trackers = [tracker for tracker in trackers if tracker not in existing_trackers]
 
