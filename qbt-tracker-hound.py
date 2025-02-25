@@ -25,7 +25,7 @@ try:
                 continue
 
             # Check if the tracker is working (status 2)
-            if is_tracker_working(tracker):
+            if is_tracker_working(tracker) or is_tracker_updating(tracker):
                 all_trackers_non_working = False  # At least one tracker is working
                 break  # No need to check further
 

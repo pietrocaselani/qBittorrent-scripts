@@ -98,6 +98,9 @@ def is_torrent_really_private(torrent):
 def is_tracker_working(tracker):
     return tracker.status == 2
 
+def is_tracker_updating(tracker):
+    return tracker.status == 3
+
 def is_tracker_non_working(tracker):
     return tracker.status in {1, 3, 4}
 
