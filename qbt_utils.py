@@ -95,6 +95,12 @@ def is_torrent_completed(torrent):
 def is_torrent_really_private(torrent):
     return torrent.private or has_all_tags(torrent, PRIVATE_TAG)
 
+def all_really_non_private_torrents(client):
+    return client.torrents.info(tag=NO_PRIVATE_TAG)
+
+def all_really_private_torrents(client):
+    return client.torrents.info(tag=PRIVATE_TAG)
+
 def is_tracker_working(tracker):
     return tracker.status == 2
 
