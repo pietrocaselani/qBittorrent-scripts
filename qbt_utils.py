@@ -77,6 +77,10 @@ def has_any_tags(torrent, *tags):
     torrent_tags = set(torrent.tags.split(', '))
     return any(tag in torrent_tags for tag in tags)
 
+def has_no_tags(torrent, *tags):
+    torrent_tags = set(torrent.tags.split(', '))
+    return all(tag not in torrent_tags for tag in tags)
+
 def add_tag(torrent, tag):
     if not has_all_tags(torrent, tag):
         torrent.addTags(tag)
@@ -93,7 +97,7 @@ def is_torrent_completed(torrent):
     return torrent.state_enum.is_complete
 
 def is_torrent_really_private(torrent):
-    return torrent.private or has_all_tags(torrent, PRIVATE_TAG)
+    return (torrent.private and has_all_tags(torrent, PRIVATE_TAG)) or (torrent.private == False and has_all_tags(torrent, PRIVATE_TAG))
 
 def all_really_non_private_torrents(client):
     return client.torrents.info(tag=NO_PRIVATE_TAG)
