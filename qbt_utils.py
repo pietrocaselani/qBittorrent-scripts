@@ -97,7 +97,7 @@ def is_torrent_completed(torrent):
     return torrent.state_enum.is_complete
 
 def is_torrent_really_private(torrent):
-    return (torrent.private and has_all_tags(torrent, PRIVATE_TAG)) or (torrent.private == False and has_all_tags(torrent, PRIVATE_TAG))
+    return (torrent.private and has_any_tags(torrent, PRIVATE_TAG)) or (torrent.private == False and has_any_tags(torrent, PRIVATE_TAG))
 
 def all_really_non_private_torrents(client):
     return client.torrents.info(tag=NO_PRIVATE_TAG)
