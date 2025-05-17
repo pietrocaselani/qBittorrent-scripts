@@ -3,6 +3,7 @@
 from qbt_utils import *
 
 try:
+    fix_encoding()
     client = get_client()
 
     # Process torrents

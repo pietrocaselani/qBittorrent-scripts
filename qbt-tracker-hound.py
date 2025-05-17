@@ -3,12 +3,13 @@
 from qbt_utils import *
 
 try:
+    fix_encoding()
     client = get_client()
 
     # Process torrents
     for torrent in client.torrents.info():
         # Ignore completed and stopped torrents
-        if is_torrent_completed(torrent) or torrent.state_enum.is_stopped:
+        if is_torrent_completed(torrent) or torrent.state_enum.is_stopped or torrent.state_enum.is_checking:
             # Remove the "no-trackers" tag if it's present
             if has_all_tags(torrent, NO_TRACKER_TAG):
                 print(f'Clearing "{NO_TRACKER_TAG}" tag from "{torrent.name}" (torrent is completed and stopped or checking)')

@@ -1,4 +1,6 @@
 import os
+import sys
+import io
 from qbittorrentapi import Client, APIConnectionError
 from dotenv import load_dotenv
 
@@ -51,11 +53,17 @@ Value Description
 4     Tracker has been contacted, but it is not working (or doesn't send proper replies)
 """
 
+def fix_encoding():
+    # Corrige a saída do console para UTF-8
+    if sys.stdout.encoding != 'utf-8':
+        sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
+    if sys.stderr.encoding != 'utf-8':
+        sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+
 def get_client():
     try:
         client = Client(host=HOST, port=PORT, username=USER, password=PASS)
         client.auth_log_in()
-        print("Successfully connected to qBittorrent Web UI.")
         return client
     except APIConnectionError as e:
         print(f"Failed to connect to qBittorrent: {e}")

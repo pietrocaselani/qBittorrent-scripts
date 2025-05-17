@@ -18,7 +18,7 @@ def show_torrent(torrent_hash):
         added_on = datetime.fromtimestamp(torrent.added_on).strftime('%Y-%m-%d %H:%M:%S')
         state_description = get_torrent_state_description(torrent.state)
 
-        print(f"Torrent info:")
+        print("Torrent info:")
         print(f"  Hash: {torrent.hash}")
         print(f"  Name: {torrent.name}")
         print(f"  Size: {torrent.size}")
@@ -36,6 +36,7 @@ def show_torrent(torrent_hash):
             completed_on = datetime.fromtimestamp(torrent.completion_on).strftime('%Y-%m-%d %H:%M:%S')
             print(f"  Completed on: {completed_on}")
         print(f"  Save path: {torrent.save_path}")
+        print(f"  Comment: {torrent.comment}")
     except Exception as e:
         print(f"An error occurred: {e}")
 
