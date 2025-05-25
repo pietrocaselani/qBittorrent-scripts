@@ -55,6 +55,8 @@ Value Description
 
 def fix_encoding():
     # Corrige a saída do console para UTF-8
+    sys.stdout.reconfigure(encoding='utf-8')
+
     if sys.stdout.encoding != 'utf-8':
         sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
     if sys.stderr.encoding != 'utf-8':
