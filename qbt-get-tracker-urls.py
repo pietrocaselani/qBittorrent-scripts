@@ -12,7 +12,7 @@ try:
         # Fetch trackers for the current torrent
         trackers = client.torrents.trackers(torrent.hash)
         for tracker in trackers:
-            if tracker.url not in IGNORED_TRACKER_URLS and tracker.status == 2:
+            if tracker.url not in IGNORED_TRACKER_URLS and is_tracker_working(tracker):
                 tracker_urls.add(tracker.url)
 
     # Write tracker URLs to the output file
