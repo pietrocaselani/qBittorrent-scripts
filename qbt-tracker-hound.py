@@ -19,18 +19,21 @@ try:
         # Fetch trackers for the current torrent
         trackers = client.torrents.trackers(torrent.hash)
         all_trackers_non_working = True  # Assume all trackers are non-working initially
+        trackers_processed_count = 0
 
         for tracker in trackers:
             # Ignore special trackers (DHT, PeX, LSD)
             if tracker.url in IGNORED_TRACKER_URLS:
                 continue
 
+            trackers_processed_count += 1
+
             # Check if the tracker is working (status 2)
             if is_tracker_working(tracker) or is_tracker_updating(tracker):
                 all_trackers_non_working = False  # At least one tracker is working
                 break  # No need to check further
 
-        if all_trackers_non_working:
+        if all_trackers_non_working and trackers_processed_count > 0:
             # Add the "no-trackers" tag if it's not already present
             if not has_all_tags(torrent, NO_TRACKER_TAG):
                 print(f'Tagging "{torrent.name}" with "{NO_TRACKER_TAG}" (all trackers non-working)')
