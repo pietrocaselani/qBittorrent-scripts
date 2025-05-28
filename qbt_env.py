@@ -1,6 +1,14 @@
 import json
 import os
 from typing import List
+from dotenv import load_dotenv
+
+load_dotenv()
+
+ENV_CONFIG_FILE = os.environ.get('QBT_ENV_FILE', '')
+if ENV_CONFIG_FILE and not os.path.isfile(ENV_CONFIG_FILE):
+    raise FileNotFoundError(f"Environment config file '{ENV_CONFIG_FILE}' does not exist.")
+
 
 class QBTTracker:
     def __init__(self, name, tag, urls):
@@ -24,7 +32,7 @@ class QBTCategoryTagMap:
 
 class QBTEnv:
     def __init__(self):
-        path = os.path.join(os.path.dirname(__file__), 'qbt-env.json')
+        path = ENV_CONFIG_FILE or os.path.join(os.path.dirname(__file__), 'qbt-env.json')
         with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
 
