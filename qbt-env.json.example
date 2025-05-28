@@ -1,0 +1,20 @@
+{
+  "QBT_HOST": "http://localhost",
+  "QBT_PORT": 8080,
+  "QBT_USER": "admin",
+  "QBT_PASS": "admin",
+  "QBT_PRIVATE_TAG": "private",
+  "QBT_NO_PRIVATE_TAG": "no-private",
+  "QBT_NO_TRACKER_TAG": "no-trackers",
+  "QBT_TRACKERS_FILE": "path/to/tracker_urls.txt",
+  "QBT_PRIVATE_TRACKERS": [
+    {
+      "name": "Private Tracker 1",
+      "tag": "private-tracker1",
+      "urls": [
+        "https://private-tracker1.com/announce",
+        "https://private-tracker1.com/announce2"
+      ]
+    }
+  ]
+}

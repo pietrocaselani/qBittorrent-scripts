@@ -1,6 +1,7 @@
 #!/usr/bin/python3 -u
 
-from qbt_utils import IGNORED_TRACKER_URLS, TRACKERS_FILE, get_client, is_tracker_working, NO_PRIVATE_TAG
+from qbt_env import QBT_ENV
+from qbt_utils import IGNORED_TRACKER_URLS, get_client, is_tracker_working
 import urllib.parse
 
 def normalize_url(url):
@@ -19,15 +20,12 @@ try:
     tracker_urls = set()
     normalized_map = {}
 
-    # Process torrents
-    for torrent in client.torrents.info(private=False, tag=NO_PRIVATE_TAG):
-        # Fetch trackers for the current torrent
+    for torrent in client.torrents.info(private=False, tag=QBT_ENV.NO_PRIVATE_TAG):
         trackers = client.torrents.trackers(torrent.hash)
         for tracker in trackers:
             if tracker.url not in IGNORED_TRACKER_URLS and is_tracker_working(tracker):
                 tracker_urls.add(tracker.url)
 
-    # Identify duplicates
     for url in tracker_urls:
         norm = normalize_url(url)
         if norm in normalized_map:
@@ -41,17 +39,15 @@ try:
         for norm, urls in duplicates.items():
             print(f"  {urls}")
 
-    # Write only unique (non-duplicate) tracker URLs to the output file
     unique_urls = set()
     for norm, urls in normalized_map.items():
-        # Only write the first occurrence of each normalized URL
         unique_urls.add(urls[0])
 
-    with open(TRACKERS_FILE, 'w') as file:
+    with open(QBT_ENV.TRACKERS_FILE, 'w') as file:
         for url in unique_urls:
             file.write(url + '\n')
 
-    print(f"Unique tracker URLs have been written to {TRACKERS_FILE}.")
+    print(f"Unique tracker URLs have been written to {QBT_ENV.TRACKERS_FILE}.")
 
 except Exception as e:
     print(f"An error occurred: {e}")

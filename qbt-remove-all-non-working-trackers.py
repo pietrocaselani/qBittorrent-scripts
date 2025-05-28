@@ -4,7 +4,8 @@ from datetime import datetime
 from qbittorrentapi import TorrentState
 
 from cache_scripts_info import cache_script_info, last_run
-from qbt_utils import NO_PRIVATE_TAG, get_client, get_non_working_trackers
+from qbt_env import QBT_ENV
+from qbt_utils import get_client, get_non_working_trackers
 
 
 def should_process_torrent(torrent, last_run_time):
@@ -20,7 +21,7 @@ def should_process_torrent(torrent, last_run_time):
 def process_torrents(client, last_run_time):
     """Find and process torrents with non-working trackers."""
     torrents_to_edit = []
-    torrents = client.torrents.info(private=False, tag=NO_PRIVATE_TAG)
+    torrents = client.torrents.info(private=False, tag=QBT_ENV.NO_PRIVATE_TAG)
     for torrent in torrents:
         if not should_process_torrent(torrent, last_run_time):
             continue

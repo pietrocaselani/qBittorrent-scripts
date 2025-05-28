@@ -1,21 +1,7 @@
-import os
 import sys
 import io
 from qbittorrentapi import Client, APIConnectionError
-from dotenv import load_dotenv
-
-# Load environment variables from .env file
-load_dotenv()
-
-# Fetch environment variables
-HOST = os.environ.get('QBT_HOST', '')
-PORT = os.environ.get('QBT_PORT', '')
-USER = os.environ.get('QBT_USER', '')
-PASS = os.environ.get('QBT_PASS', '')
-PRIVATE_TAG = os.environ.get('QBT_PRIVATE_TAG', '')
-NO_PRIVATE_TAG = os.environ.get('QBT_NO_PRIVATE_TAG', '')
-NO_TRACKER_TAG = os.environ.get('QBT_NO_TRACKER_TAG', '')
-TRACKERS_FILE = os.environ.get('QBT_TRACKERS_FILE', '')
+from qbt_env import QBT_ENV
 
 # Ignored trackers
 IGNORED_TRACKER_URLS = {'** [DHT] **', '** [PeX] **', '** [LSD] **'}
@@ -63,7 +49,7 @@ def fix_encoding():
 
 def get_client():
     try:
-        client = Client(host=HOST, port=PORT, username=USER, password=PASS)
+        client = Client(host=QBT_ENV.HOST, port=QBT_ENV.PORT, username=QBT_ENV.USER, password=QBT_ENV.PASS)
         client.auth_log_in()
         return client
     except APIConnectionError as e:
@@ -79,24 +65,36 @@ def read_trackers(file_path):
 
 # Utility functions acting like extension methods
 def has_all_tags(torrent, *tags):
+    if len(tags) == 1 and isinstance(tags[0], (list, tuple)):
+        tags = tags[0]
+    elif isinstance(tags, str):
+        tags = [tag.strip() for tag in tags.split(',')]
     torrent_tags = set(torrent.tags.split(', '))
     return all(tag in torrent_tags for tag in tags)
 
 def has_any_tags(torrent, *tags):
+    if len(tags) == 1 and isinstance(tags[0], (list, tuple)):
+        tags = tags[0]
+    elif isinstance(tags, str):
+        tags = [tag.strip() for tag in tags.split(',')]
     torrent_tags = set(torrent.tags.split(', '))
     return any(tag in torrent_tags for tag in tags)
 
 def has_no_tags(torrent, *tags):
+    if len(tags) == 1 and isinstance(tags[0], (list, tuple)):
+        tags = tags[0]
+    elif isinstance(tags, str):
+        tags = [tag.strip() for tag in tags.split(',')]
     torrent_tags = set(torrent.tags.split(', '))
     return all(tag not in torrent_tags for tag in tags)
 
-def add_tag(torrent, tag):
-    if not has_all_tags(torrent, tag):
-        torrent.addTags(tag)
+def add_tags(torrent, tags):
+    if not has_all_tags(torrent, tags):
+        torrent.addTags(tags)
 
-def remove_tag(torrent, tag):
-    if has_all_tags(torrent, tag):
-        torrent.removeTags(tag)
+def remove_tags(torrent, tags):
+    if has_all_tags(torrent, tags):
+        torrent.removeTags(tags)
 
 def get_non_working_trackers(client, torrent_hash):
     trackers = client.torrents.trackers(torrent_hash)
@@ -106,13 +104,13 @@ def is_torrent_completed(torrent):
     return torrent.state_enum.is_complete
 
 def is_torrent_really_private(torrent):
-    return (torrent.private and has_any_tags(torrent, PRIVATE_TAG)) or (torrent.private == False and has_any_tags(torrent, PRIVATE_TAG))
+    return (torrent.private and has_any_tags(torrent, QBT_ENV.PRIVATE_TAG)) or (torrent.private == False and has_any_tags(torrent, QBT_ENV.PRIVATE_TAG))
 
 def all_really_non_private_torrents(client):
-    return client.torrents.info(tag=NO_PRIVATE_TAG)
+    return client.torrents.info(tag=QBT_ENV.NO_PRIVATE_TAG)
 
 def all_really_private_torrents(client):
-    return client.torrents.info(tag=PRIVATE_TAG)
+    return client.torrents.info(tag=QBT_ENV.PRIVATE_TAG)
 
 def is_tracker_working(tracker):
     return tracker.status == 2

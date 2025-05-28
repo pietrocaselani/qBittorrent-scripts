@@ -1,6 +1,7 @@
 #!/usr/bin/python3 -u
 
-from qbt_utils import IGNORED_TRACKER_URLS, NO_TRACKER_TAG, fix_encoding, get_client, is_torrent_completed, is_tracker_working, is_tracker_updating, has_all_tags, add_tag, remove_tag
+from qbt_env import QBT_ENV
+from qbt_utils import IGNORED_TRACKER_URLS, fix_encoding, get_client, is_torrent_completed, is_tracker_working, is_tracker_updating, has_all_tags, add_tags, remove_tags
 
 try:
     fix_encoding()
@@ -11,9 +12,9 @@ try:
         # Ignore completed and stopped torrents
         if is_torrent_completed(torrent) or torrent.state_enum.is_stopped or torrent.state_enum.is_checking:
             # Remove the "no-trackers" tag if it's present
-            if has_all_tags(torrent, NO_TRACKER_TAG):
-                print(f'Clearing "{NO_TRACKER_TAG}" tag from "{torrent.name}" (torrent is completed and stopped or checking)')
-                remove_tag(torrent, NO_TRACKER_TAG)
+            if has_all_tags(torrent, QBT_ENV.NO_TRACKER_TAG):
+                print(f'Clearing "{QBT_ENV.NO_TRACKER_TAG}" tag from "{torrent.name}" (torrent is completed and stopped or checking)')
+                remove_tags(torrent, QBT_ENV.NO_TRACKER_TAG)
             continue
 
         # Fetch trackers for the current torrent
@@ -35,14 +36,14 @@ try:
 
         if all_trackers_non_working and trackers_processed_count > 0:
             # Add the "no-trackers" tag if it's not already present
-            if not has_all_tags(torrent, NO_TRACKER_TAG):
-                print(f'Tagging "{torrent.name}" with "{NO_TRACKER_TAG}" (all trackers non-working)')
-                add_tag(torrent, NO_TRACKER_TAG)
+            if not has_all_tags(torrent, QBT_ENV.NO_TRACKER_TAG):
+                print(f'Tagging "{torrent.name}" with "{QBT_ENV.NO_TRACKER_TAG}" (all trackers non-working)')
+                add_tags(torrent, QBT_ENV.NO_TRACKER_TAG)
         else:
             # Remove the "no-trackers" tag if it's present
-            if has_all_tags(torrent, NO_TRACKER_TAG):
-                print(f'Clearing "{NO_TRACKER_TAG}" tag from "{torrent.name}" (working trackers found)')
-                remove_tag(torrent, NO_TRACKER_TAG)
+            if has_all_tags(torrent, QBT_ENV.NO_TRACKER_TAG):
+                print(f'Clearing "{QBT_ENV.NO_TRACKER_TAG}" tag from "{torrent.name}" (working trackers found)')
+                remove_tags(torrent, QBT_ENV.NO_TRACKER_TAG)
 
 except Exception as e:
     print(f"An error occurred: {e}")

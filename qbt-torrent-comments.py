@@ -2,7 +2,6 @@
 
 import sys
 from qbt_utils import fix_encoding, get_client
-from datetime import datetime
 
 try:
     fix_encoding()
