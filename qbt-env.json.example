@@ -16,5 +16,10 @@
         "https://private-tracker1.com/announce2"
       ]
     }
-  ]
+  ],
+  "QBT_CATEGORY_TAG_MAP": {
+    "Movies": ["Movies"],
+    "TV": ["Series"],
+    "Documentaries": ["Documentaries"]
+  }
 }
