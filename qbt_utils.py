@@ -8,11 +8,10 @@ from dotenv import load_dotenv
 load_dotenv()
 
 # Fetch environment variables
-DEBUG = os.environ['DEBUG'].lower() == 'true'
-HOST = os.environ['QBT_HOST']
-PORT = os.environ.get('QBT_PORT')
-USER = os.environ['QBT_USER']
-PASS = os.environ['QBT_PASS']
+HOST = os.environ.get('QBT_HOST', '')
+PORT = os.environ.get('QBT_PORT', '')
+USER = os.environ.get('QBT_USER', '')
+PASS = os.environ.get('QBT_PASS', '')
 PRIVATE_TAG = os.environ.get('QBT_PRIVATE_TAG', '')
 NO_PRIVATE_TAG = os.environ.get('QBT_NO_PRIVATE_TAG', '')
 NO_TRACKER_TAG = os.environ.get('QBT_NO_TRACKER_TAG', '')

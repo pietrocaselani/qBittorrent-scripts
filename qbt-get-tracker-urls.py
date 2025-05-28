@@ -1,6 +1,6 @@
 #!/usr/bin/python3 -u
 
-from qbt_utils import *
+from qbt_utils import IGNORED_TRACKER_URLS, TRACKERS_FILE, get_client, is_tracker_working, NO_PRIVATE_TAG
 
 try:
     client = get_client()
