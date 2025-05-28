@@ -39,9 +39,23 @@ try:
         for norm, urls in duplicates.items():
             print(f"  {urls}")
 
+    # Collect all private tracker URL prefixes from QBT_ENV.PRIVATE_TRACKERS
+    private_tracker_prefixes = set()
+    for tracker in QBT_ENV.PRIVATE_TRACKERS:
+        for url in tracker.urls:
+            # Use the base URL (scheme + netloc)
+            parsed = urllib.parse.urlparse(url)
+            prefix = f"{parsed.scheme}://{parsed.netloc}"
+            private_tracker_prefixes.add(prefix)
+
     unique_urls = set()
     for norm, urls in normalized_map.items():
-        unique_urls.add(urls[0])
+        url_to_check = urls[0]
+        parsed = urllib.parse.urlparse(url_to_check)
+        url_prefix = f"{parsed.scheme}://{parsed.netloc}"
+        # Only add if not matching any private tracker prefix
+        if url_prefix not in private_tracker_prefixes:
+            unique_urls.add(url_to_check)
 
     with open(QBT_ENV.TRACKERS_FILE, 'w') as file:
         for url in unique_urls:
