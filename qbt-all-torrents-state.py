@@ -1,25 +1,15 @@
 #!/usr/bin/python3 -u
 
-import sys
-from qbt_utils import *
-from datetime import datetime
-import io
-
-
-# Corrige a saída do console para UTF-8
-if sys.stdout.encoding != 'utf-8':
-    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='replace')
-if sys.stderr.encoding != 'utf-8':
-    sys.stderr = io.TextIOWrapper(sys.stderr.buffer, encoding='utf-8', errors='replace')
+from qbt_utils import get_client, fix_encoding
 
 def all_torrents_state():
     try:
+        fix_encoding()
         client = get_client()
 
-        # Fetch torrent by hash
         torrents = client.torrents.info()
         if not torrents:
-            print(f"No torrents found")
+            print("No torrents found")
             return
 
         for torrent in torrents:

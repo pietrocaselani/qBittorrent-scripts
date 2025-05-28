@@ -1,7 +1,7 @@
 #!/usr/bin/python3 -u
 
 import sys
-from qbt_utils import *
+from qbt_utils import fix_encoding, get_client
 from datetime import datetime
 
 try:

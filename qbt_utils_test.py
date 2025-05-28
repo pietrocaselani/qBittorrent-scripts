@@ -1,5 +1,5 @@
 import unittest
-from qbt_utils import *
+from qbt_utils import has_all_tags, has_any_tags, is_torrent_really_private, PRIVATE_TAG, NO_PRIVATE_TAG
 
 class MockTorrent:
     def __init__(self, tags="", private=False):
@@ -7,18 +7,20 @@ class MockTorrent:
         self.private = private
 
 class TestQbtUtils(unittest.TestCase):
+    TAGS_1_2_3 = 'tag1, tag2, tag3'
+
     def test_has_all_tags_single(self):
-        torrent = MockTorrent(tags='tag1, tag2, tag3')
+        torrent = MockTorrent(tags=self.TAGS_1_2_3)
         self.assertTrue(has_all_tags(torrent, 'tag1'))
         self.assertFalse(has_all_tags(torrent, 'tag4'))
 
     def test_has_all_tags_multiple(self):
-        torrent = MockTorrent(tags='tag1, tag2, tag3')
+        torrent = MockTorrent(tags=self.TAGS_1_2_3)
         self.assertTrue(has_all_tags(torrent, 'tag1', 'tag2'))
         self.assertFalse(has_all_tags(torrent, 'tag1', 'tag4'))
 
     def test_has_any_tags_multiple(self):
-        torrent = MockTorrent(tags='tag1, tag2, tag3')
+        torrent = MockTorrent(tags=self.TAGS_1_2_3)
         self.assertTrue(has_any_tags(torrent, 'tag1', 'tag2'))
         self.assertTrue(has_any_tags(torrent, 'tag1', 'tag4'))
         self.assertFalse(has_any_tags(torrent, 'tag4', 'tag5'))

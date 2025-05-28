@@ -1,14 +1,13 @@
 #!/usr/bin/python3 -u
 
-from qbt_utils import *
+from qbt_utils import NO_PRIVATE_TAG, TRACKERS_FILE, fix_encoding, get_client, read_trackers
 
 try:
+    fix_encoding()
     client = get_client()
 
-    # Read trackers from file
     trackers = read_trackers(TRACKERS_FILE)
 
-    # Process torrents
     for torrent in client.torrents.info(private=False, tag=NO_PRIVATE_TAG):
         existing_trackers = {tracker.url for tracker in client.torrents.trackers(torrent.hash)}
         new_trackers = [tracker for tracker in trackers if tracker not in existing_trackers]

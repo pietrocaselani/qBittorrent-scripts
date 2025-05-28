@@ -1,6 +1,6 @@
 #!/usr/bin/python3 -u
 
-from qbt_utils import *
+from qbt_utils import IGNORED_TRACKER_URLS, NO_TRACKER_TAG, fix_encoding, get_client, is_torrent_completed, is_tracker_working, is_tracker_updating, has_all_tags, add_tag, remove_tag
 
 try:
     fix_encoding()

@@ -1,10 +1,11 @@
 #!/usr/bin/python3 -u
 
 import sys
-from qbt_utils import *
+from qbt_utils import get_client, fix_encoding, get_non_working_trackers
 
 def delete_non_working_trackers(torrent_hash):
     try:
+        fix_encoding()
         client = get_client()
 
         # Fetch torrent by hash

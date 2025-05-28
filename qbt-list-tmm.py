@@ -1,7 +1,7 @@
 #!/usr/bin/python3 -u
 
 import argparse
-from qbt_utils import *
+from qbt_utils import get_client
 
 def main():
     parser = argparse.ArgumentParser(description="List torrents and their automatic management status.")

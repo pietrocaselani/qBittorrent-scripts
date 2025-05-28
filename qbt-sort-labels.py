@@ -1,6 +1,6 @@
 #!/usr/bin/python3 -u
 
-from qbt_utils import *
+from qbt_utils import fix_encoding, get_client
 
 try:
     fix_encoding()
