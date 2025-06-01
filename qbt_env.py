@@ -35,7 +35,7 @@ class QBTEnv:
         path = ENV_CONFIG_FILE or os.path.join(os.path.dirname(__file__), 'qbt-env.json')
         with open(path, 'r', encoding='utf-8') as f:
             data = json.load(f)
-
+        self._data = data  # Store the full dict for generic access
         self.HOST = data.get('QBT_HOST', 'http://localhost')
         self.PORT = data.get('QBT_PORT', 8080)
         self.USER = data.get('QBT_USER', 'admin')
@@ -54,6 +54,12 @@ class QBTEnv:
                 )
             )
         self.CATEGORY_TAG_MAP = QBTCategoryTagMap(data.get('QBT_CATEGORY_TAG_MAP', {}))
+
+    def __getitem__(self, key):
+        return self._data[key]
+
+    def get(self, key, default=None):
+        return self._data.get(key, default)
 
     def __repr__(self):
         return f"<QBTEnv {self.__dict__}>"
