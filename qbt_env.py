@@ -9,15 +9,15 @@ ENV_CONFIG_FILE = os.environ.get('QBT_ENV_FILE', '')
 if ENV_CONFIG_FILE and not os.path.isfile(ENV_CONFIG_FILE):
     raise FileNotFoundError(f"Environment config file '{ENV_CONFIG_FILE}' does not exist.")
 
-
 class QBTTracker:
-    def __init__(self, name, tag, urls):
+    def __init__(self, name, tag, urls, auth=None):
         self.name = name
         self.tag = tag
         self.urls = urls
+        self.auth = auth or {}
 
     def __repr__(self):
-        return f"<QBTPrivateTracker name={self.name!r} tag={self.tag!r} urls={self.urls!r}>"
+        return f"<QBTPrivateTracker name={self.name!r} tag={self.tag!r} urls={self.urls!r} auth={self.auth!r}>"
 
 class QBTCategoryTagMap:
     def __init__(self, mapping):
@@ -50,7 +50,8 @@ class QBTEnv:
                 QBTTracker(
                     tracker.get('name'),
                     tracker.get('tag'),
-                    tracker.get('urls', [])
+                    tracker.get('urls', []),
+                    tracker.get('auth')
                 )
             )
         self.CATEGORY_TAG_MAP = QBTCategoryTagMap(data.get('QBT_CATEGORY_TAG_MAP', {}))

@@ -88,7 +88,12 @@ def has_no_tags(torrent, *tags):
     torrent_tags = set(torrent.tags.split(', '))
     return all(tag not in torrent_tags for tag in tags)
 
-def add_tags(torrent, tags):
+def add_tags(torrent, *tags):
+    if len(tags) == 1 and isinstance(tags[0], (list, tuple)):
+        tags = tags[0]
+    elif isinstance(tags, str):
+        tags = [tag.strip() for tag in tags.split(',')]
+
     if not has_all_tags(torrent, tags):
         torrent.addTags(tags)
 

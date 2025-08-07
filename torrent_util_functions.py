@@ -35,6 +35,7 @@ def print_torrent_info(torrent: TorrentDictionary, full_info=False):
     if full_info:
         print(f"  Size: {human_readable_size(torrent.size)} ({torrent.size} bytes)")
         print(f"  State: {state_description}")
+        print(f"  Private: {'Yes' if torrent.private else 'No'}")
         print(f"  Progress: {torrent.progress * 100:.2f}%")
         print(f"  Downloaded: {human_readable_size(torrent.downloaded)} ({torrent.downloaded} bytes)")
         print(f"  Uploaded: {human_readable_size(torrent.uploaded)} ({torrent.uploaded} bytes)")
@@ -48,3 +49,4 @@ def print_torrent_info(torrent: TorrentDictionary, full_info=False):
             print(f"  Completed on: {completed_on}")
         print(f"  Save path: {torrent.save_path}")
         print(f"  Comment: {torrent.comment}")
+        print(f"  Magnet: {torrent.magnet_uri}")
