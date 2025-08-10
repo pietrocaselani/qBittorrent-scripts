@@ -98,8 +98,7 @@ def add_tags(torrent, *tags):
         torrent.addTags(tags)
 
 def remove_tags(torrent, tags):
-    if has_all_tags(torrent, tags):
-        torrent.removeTags(tags)
+    torrent.removeTags(tags)
 
 def get_non_working_trackers(client, torrent_hash):
     trackers = client.torrents.trackers(torrent_hash)
